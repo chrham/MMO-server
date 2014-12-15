@@ -1,0 +1,6 @@
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\bin\Debug\MMO Server.exe.config
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\bin\Debug\MMO Server.exe
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\bin\Debug\MMO Server.pdb
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\obj\Debug\MMO Server.csprojResolveAssemblyReference.cache
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\obj\Debug\MMO Server.exe
+c:\users\andrew4699\documents\visual studio 2012\Projects\MMO Server\MMO Server\obj\Debug\MMO Server.pdb
