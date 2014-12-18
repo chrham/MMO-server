@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace MMO_Server
 {
@@ -17,6 +17,25 @@ namespace MMO_Server
         public static void ConsoleWrite(string message)
         {
             Console.WriteLine(" >> " + message);
+        }
+
+        public static string escape(string text)
+        {
+            return MySql.Data.MySqlClient.MySqlHelper.EscapeString(text.ToString()).Replace("_", "\\_").Replace("%", "\\%");
+        }
+
+        public static string password(string pass)
+        {
+            SHA512 alg = SHA512.Create();
+
+            byte[] result = alg.ComputeHash(Encoding.UTF8.GetBytes(pass));
+
+            return BitConverter.ToString(result).Replace("-", "");
+        }
+
+        public static int GetUnixTimestamp()
+        {
+            return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
     }
 }

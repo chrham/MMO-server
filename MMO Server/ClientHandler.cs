@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace MMO_Server
 {
@@ -14,16 +16,36 @@ namespace MMO_Server
         int clientNumber;
         string clientIP;
 
+        MySqlConnection mConnection;
+
         public ClientHandler()
         {
         }
 
-        private void OnReceiveClientMessage(int message, params string[] parameters)
+        private void OnReceiveClientMessage(int message, params object[] parameters)
         {
             switch (message)
             {
                 case Messages.LOGIN:
                 {
+                        Server.ConsoleWrite("1");
+                    MySqlDataReader mData = (new MySqlCommand("SELECT COUNT(*) AS `rows`, `id`, `username` FROM `accounts` WHERE `username` = '" + Server.escape(parameters[0].ToString()) + "' AND `password` = '" + Server.password(parameters[1].ToString()) + "'", mConnection)).ExecuteReader();
+
+                    if (mData.Read())
+                    {
+                        Server.ConsoleWrite("2");
+                        if (Convert.ToInt32(mData["rows"]) == 0)
+                        {
+                            Server.ConsoleWrite("3");
+                            sendMessage(Messages.LOGIN, false);
+                        }
+                        else
+                        {
+                            Server.ConsoleWrite("4");
+                            sendMessage(Messages.LOGIN, true);
+                        }
+                    }
+
                     break;
                 }
             }
@@ -31,17 +53,18 @@ namespace MMO_Server
 
         /* ========= Internal ========= */
 
-        public void startClient(TcpClient inClientSocket, int clineNo, string clineIP)
+        public void startClient(TcpClient userSocket, int userNo, string userIP, MySqlConnection myConnection)
         {
-            this.clientSocket = inClientSocket;
-            this.clientNumber = clineNo;
-            this.clientIP = clineIP;
+            this.clientSocket = userSocket;
+            this.clientNumber = userNo;
+            this.clientIP = userIP;
+            this.mConnection = myConnection;
 
             Thread ctThread = new Thread(doChat);
             ctThread.Start();
         }
 
-        private void sendMessage(int message, params string[] parameters)
+        private void sendMessage(int message, params object[] parameters)
         {
             Byte[] sendBytes = null;
 
@@ -75,14 +98,15 @@ namespace MMO_Server
 
                     OnReceiveClientMessage(messageID, receivedMessage.ToArray());
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine(ex.ToString());
-                    Server.ConsoleWrite("Client #" + clientNumber + " [IP: " + clientIP + "] has disconnected");
-                    Server.clientList[clientNumber] = false;
-                    clientSocket.Close();
+                    
                 }
             }
+
+            Server.ConsoleWrite("Client #" + clientNumber + " [IP: " + clientIP + "] has disconnected");
+            Server.clientList[clientNumber] = false;
+            clientSocket.Close();
         }
     }
 }
