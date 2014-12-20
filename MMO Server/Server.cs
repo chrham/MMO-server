@@ -14,8 +14,9 @@ namespace MMO_Server
 
         public static bool[] clientList = new bool[MAX_USERS];
 
-        public static void ConsoleWrite(string message)
+        public static void ConsoleWrite(string message, ConsoleColor color = ConsoleColor.White)
         {
+            Console.ForegroundColor = color;
             Console.WriteLine(" >> " + message);
         }
 

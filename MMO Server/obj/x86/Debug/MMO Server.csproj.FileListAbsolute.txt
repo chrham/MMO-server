@@ -1,0 +1,5 @@
+D:\MMO-server\MMO Server\bin\x86\Debug\MMO Server.exe.config
+D:\MMO-server\MMO Server\bin\x86\Debug\MMO Server.exe
+D:\MMO-server\MMO Server\bin\x86\Debug\MMO Server.pdb
+D:\MMO-server\MMO Server\obj\x86\Debug\MMO Server.exe
+D:\MMO-server\MMO Server\obj\x86\Debug\MMO Server.pdb

@@ -1,0 +1,6 @@
+D:\MMO-server\MMO Server\bin\x64\Debug\MMO Server.exe.config
+D:\MMO-server\MMO Server\bin\x64\Debug\MMO Server.exe
+D:\MMO-server\MMO Server\bin\x64\Debug\MMO Server.pdb
+D:\MMO-server\MMO Server\obj\x64\Debug\MMO Server.csprojResolveAssemblyReference.cache
+D:\MMO-server\MMO Server\obj\x64\Debug\MMO Server.exe
+D:\MMO-server\MMO Server\obj\x64\Debug\MMO Server.pdb

@@ -7,6 +7,8 @@ using System.Net.Sockets;
 using System.Net;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using MySql.Data.Common;
+using MySql.Data.Types;
 
 namespace MMO_Server
 {
@@ -21,15 +23,19 @@ namespace MMO_Server
 
             serverSocket.Start();
 
-            Server.ConsoleWrite("Attempting to connect to MySQL...");
+            Server.ConsoleWrite("Connecting to MySQL...");
 
             try
             {
-                mConnection = new MySqlConnection("SERVER=127.0.0.1;DATABASE=mmo;UID=root;PASSWORD=;");
+                mConnection = new MySqlConnection();
+                mConnection.ConnectionString = "server=127.0.0.1;uid=root;pwd=abc123;database=MMO;";
+                mConnection.Open();
+
+                Server.ConsoleWrite("Successfully connected to MySQL");
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                Server.ConsoleWrite(ex.ToString());
+                Server.ConsoleWrite(ex.Message, ConsoleColor.Red);
             }
 
             Server.ConsoleWrite("Waiting for clients...");

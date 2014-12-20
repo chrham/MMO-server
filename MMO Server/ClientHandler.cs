@@ -29,8 +29,9 @@ namespace MMO_Server
                 case Messages.LOGIN:
                 {
                         Server.ConsoleWrite("1");
-                    MySqlDataReader mData = (new MySqlCommand("SELECT COUNT(*) AS `rows`, `id`, `username` FROM `accounts` WHERE `username` = '" + Server.escape(parameters[0].ToString()) + "' AND `password` = '" + Server.password(parameters[1].ToString()) + "'", mConnection)).ExecuteReader();
-
+                    MySqlDataReader mData = (new MySqlCommand("SELECT COUNT(*) AS `rows`, `id`, `username` FROM `accounts` WHERE `username` = 'abc123' AND `password` = 'abc123'", mConnection)).ExecuteReader();
+                    Server.ConsoleWrite(Server.escape(parameters[0].ToString()));
+                    Server.ConsoleWrite(Server.password(parameters[1].ToString()));
                     if (mData.Read())
                     {
                         Server.ConsoleWrite("2");
