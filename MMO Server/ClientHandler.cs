@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace MMO_Server
 {
@@ -15,6 +16,8 @@ namespace MMO_Server
         TcpClient clientSocket;
         int clientNumber;
         string clientIP;
+
+        int accountID;
 
         MySqlConnection mConnection;
 
@@ -28,22 +31,45 @@ namespace MMO_Server
             {
                 case Messages.LOGIN:
                 {
-                        Server.ConsoleWrite("1");
-                    MySqlDataReader mData = (new MySqlCommand("SELECT COUNT(*) AS `rows`, `id`, `username` FROM `accounts` WHERE `username` = 'abc123' AND `password` = 'abc123'", mConnection)).ExecuteReader();
-                    Server.ConsoleWrite(Server.escape(parameters[0].ToString()));
-                    Server.ConsoleWrite(Server.password(parameters[1].ToString()));
+                    MySqlDataReader mData = (new MySqlCommand("SELECT COUNT(*) AS `rows`, `id` FROM `accounts` WHERE `username` = '" + Server.escape(parameters[0].ToString()) + "' AND `password` = '" + Server.password(parameters[1].ToString()) + "'", mConnection)).ExecuteReader();
+                    
                     if (mData.Read())
                     {
-                        Server.ConsoleWrite("2");
-                        if (Convert.ToInt32(mData["rows"]) == 0)
+                        int rowCount = Convert.ToInt32(mData["rows"]);
+
+                        if (rowCount == 0)
                         {
-                            Server.ConsoleWrite("3");
-                            sendMessage(Messages.LOGIN, false);
+                            mData.Dispose();
+
+                            sendMessage(Messages.LOGIN, 0);
                         }
                         else
                         {
-                            Server.ConsoleWrite("4");
-                            sendMessage(Messages.LOGIN, true);
+                            accountID = Convert.ToInt32(mData["id"]);
+
+                            mData.Dispose();
+
+                            List<object[]> characterList = new List<object[]>();
+
+                            mData = (new MySqlCommand("SELECT `id`, `name`, `class`, `race`, `hairstyle`, `haircolor`, `skincolor` FROM `characters` WHERE `account` = '" + accountID + "'", mConnection)).ExecuteReader();
+
+                            while (mData.Read())
+                            {
+                                characterList.Add(new object[]
+                                {
+                                    mData["id"],
+                                    mData["name"],
+                                    mData["class"],
+                                    mData["race"],
+                                    mData["hairstyle"],
+                                    mData["haircolor"],
+                                    mData["skincolor"]
+                                });
+                            }
+
+                            mData.Dispose();
+                            
+                            sendMessage(Messages.LOGIN, 1, JsonConvert.SerializeObject(characterList));
                         }
                     }
 
@@ -89,6 +115,7 @@ namespace MMO_Server
 
                     NetworkStream networkStream = clientSocket.GetStream();
                     networkStream.Read(bytesFrom, 0, clientSocket.ReceiveBufferSize);
+
                     dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
                     dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 
@@ -99,10 +126,7 @@ namespace MMO_Server
 
                     OnReceiveClientMessage(messageID, receivedMessage.ToArray());
                 }
-                catch
-                {
-                    
-                }
+                catch { }
             }
 
             Server.ConsoleWrite("Client #" + clientNumber + " [IP: " + clientIP + "] has disconnected");

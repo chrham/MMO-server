@@ -28,7 +28,7 @@ namespace MMO_Server
             try
             {
                 mConnection = new MySqlConnection();
-                mConnection.ConnectionString = "server=127.0.0.1;uid=root;pwd=abc123;database=MMO;";
+                mConnection.ConnectionString = "server=127.0.0.1;uid=root;pwd=;database=MMO;";
                 mConnection.Open();
 
                 Server.ConsoleWrite("Successfully connected to MySQL");

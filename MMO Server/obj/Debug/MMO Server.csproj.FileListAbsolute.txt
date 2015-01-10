@@ -10,3 +10,10 @@ D:\MMO-server\MMO Server\obj\Debug\MMO Server.pdb
 D:\MMO-server\MMO Server\obj\Debug\MMO Server.csprojResolveAssemblyReference.cache
 D:\MMO-server\MMO Server\bin\Debug\MMO Server.exe
 D:\MMO-server\MMO Server\bin\Debug\MMO Server.pdb
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\bin\Debug\MMO Server.exe.config
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\obj\Debug\MMO Server.exe
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\obj\Debug\MMO Server.pdb
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\bin\Debug\MMO Server.exe
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\bin\Debug\MMO Server.pdb
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\obj\Debug\MMO Server.csprojResolveAssemblyReference.cache
+C:\Users\andrew4699\Documents\MMO-server\MMO Server\bin\Debug\Newtonsoft.Json.dll
